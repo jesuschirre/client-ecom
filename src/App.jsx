@@ -3,6 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import UserProfile from "./pages/UserProfile";
 import Usuarios from "./pages/Usuarios";
 import Sidebar from "./components/Sidebar";
+import Peticiones from "./pages/peticiones";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/usuarios" element={<Usuarios />} />
+            <Route path="/peticiones" element={<Peticiones />} />
           </Routes>
         </div>
       </div>

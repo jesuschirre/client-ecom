@@ -8,6 +8,7 @@ export default function Sidebar() {
         <Link to="/" className="hover:bg-gray-700 p-2 rounded">Dashboard</Link>
         <Link to="/profile" className="hover:bg-gray-700 p-2 rounded">User Profile</Link>
         <Link to="/usuarios" className="hover:bg-gray-700 p-2 rounded">User Profile</Link>
+        <Link to="/peticiones" className="hover:bg-gray-700 p-2 rounded">Peticiones</Link>
       </nav>
     </div>
   );
