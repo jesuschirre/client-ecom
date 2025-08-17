@@ -19,7 +19,7 @@ export default function Peticiones() {
   const aprobarSolicitud = async (id) => {
     try {
       const res = await fetch(
-        "http://localhost:3000/solicitudes/aprobar-solicitud",
+        "http://localhost:3000/solicitudes/solicitudes-vendedor/aceptar",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -28,6 +28,7 @@ export default function Peticiones() {
       );
 
       const data = await res.json();
+      console.log("Respuesta del servidor:", data);
       alert(data.message);
       cargarSolicitudes();
     } catch (err) {
@@ -45,24 +46,16 @@ export default function Peticiones() {
           <table className="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-6 py-3 border-b text-left text-sm font-semibold text-gray-700">
-                  ID
-                </th>
-                <th className="px-6 py-3 border-b text-left text-sm font-semibold text-gray-700">
-                  Usuario
-                </th>
-                <th className="px-6 py-3 border-b text-left text-sm font-semibold text-gray-700">
-                  Correo
-                </th>
-                <th className="px-6 py-3 border-b text-left text-sm font-semibold text-gray-700">
-                  Estado
-                </th>
-                <th className="px-6 py-3 border-b text-left text-sm font-semibold text-gray-700">
-                  Fecha
-                </th>
-                <th className="px-6 py-3 border-b text-center text-sm font-semibold text-gray-700">
-                  Acciones
-                </th>
+                <th className="px-6 py-3 border-b">ID</th>
+                <th className="px-6 py-3 border-b">Usuario</th>
+                <th className="px-6 py-3 border-b">Correo</th>
+                <th className="px-6 py-3 border-b">Método</th>
+                <th className="px-6 py-3 border-b">Monto</th>
+                <th className="px-6 py-3 border-b">Referencia</th>
+                <th className="px-6 py-3 border-b">Comprobante</th>
+                <th className="px-6 py-3 border-b">Estado</th>
+                <th className="px-6 py-3 border-b">Fecha</th>
+                <th className="px-6 py-3 border-b text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -71,11 +64,28 @@ export default function Peticiones() {
                   key={sol.id}
                   className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                 >
-                  <td className="px-6 py-3 border-b text-sm">{sol.id}</td>
-                  <td className="px-6 py-3 border-b text-sm">{sol.nombre}</td>
-                  <td className="px-6 py-3 border-b text-sm">{sol.correo}</td>
-                  <td className="px-6 py-3 border-b text-sm">{sol.estado}</td>
-                  <td className="px-6 py-3 border-b text-sm">
+                  <td className="px-6 py-3 border-b">{sol.id}</td>
+                  <td className="px-6 py-3 border-b">{sol.nombre}</td>
+                  <td className="px-6 py-3 border-b">{sol.correo}</td>
+                  <td className="px-6 py-3 border-b">{sol.metodo_pago}</td>
+                  <td className="px-6 py-3 border-b">S/ {sol.monto}</td>
+                  <td className="px-6 py-3 border-b">{sol.referencia_pago}</td>
+                  <td className="px-6 py-3 border-b">
+                    {sol.comprobante_pago ? (
+                      <a
+                        href={`http://localhost:3000/uploads/${sol.comprobante_pago}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        Ver
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td className="px-6 py-3 border-b">{sol.estado}</td>
+                  <td className="px-6 py-3 border-b">
                     {new Date(sol.fecha_solicitud).toLocaleString()}
                   </td>
                   <td className="px-6 py-3 border-b text-center">
