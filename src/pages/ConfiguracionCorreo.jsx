@@ -1,5 +1,3 @@
-// El código completo del componente que te proporcioné antes va aquí.
-// Lo vuelvo a poner para tu comodidad:
 import React, { useState, useEffect } from "react";
 
 export default function ConfiguracionCorreo() {
@@ -62,21 +60,37 @@ export default function ConfiguracionCorreo() {
       
       <form onSubmit={handleSubmit} className="space-y-8">
         <fieldset className="border p-4 rounded-lg shadow-sm">
-          <legend className="text-lg font-semibold px-2">Proveedor Activo</legend>
-          <div className="mt-2">
-            <label htmlFor="proveedor_activo" className="block text-sm font-medium text-gray-700">
-              Seleccionar proveedor por defecto
-            </label>
-            <select
-              id="proveedor_activo"
-              name="proveedor_activo"
-              value={config.proveedor_activo || 'gmail'}
-              onChange={handleInputChange}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            >
-              <option value="gmail">Gmail</option>
-              <option value="corporativo">Corporativo</option>
-            </select>
+          <legend className="text-lg font-semibold px-2">Configuración General</legend>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+            <div>
+              <label htmlFor="proveedor_activo" className="block text-sm font-medium text-gray-700">
+                Proveedor de correo activo
+              </label>
+              <select
+                id="proveedor_activo"
+                name="proveedor_activo"
+                value={config.proveedor_activo || 'gmail'}
+                onChange={handleInputChange}
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              >
+                <option value="gmail">Gmail</option>
+                <option value="corporativo">Corporativo</option>
+              </select>
+            </div>
+            
+            {/* ====================================================== */}
+            {/* ===== AQUÍ ESTÁ EL NUEVO CAMPO DEL ADMINISTRADOR ===== */}
+            {/* ====================================================== */}
+            <div>
+              <InputField 
+                label="Email del Admin para Notificaciones" 
+                name="admin_email_notificaciones" 
+                type="email" 
+                value={config.admin_email_notificaciones || ''} 
+                onChange={handleInputChange}
+                placeholder="admin@tuempresa.com"
+              />
+            </div>
           </div>
         </fieldset>
 
