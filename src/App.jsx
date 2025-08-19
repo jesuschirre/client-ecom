@@ -4,6 +4,7 @@ import UserProfile from "./pages/UserProfile";
 import Usuarios from "./pages/Usuarios";
 import Sidebar from "./components/Sidebar";
 import Peticiones from "./pages/peticiones";
+import ConfiguracionCorreo from "./pages/ConfiguracionCorreo"; // <-- AÑADE ESTA IMPORTACIÓN
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/usuarios" element={<Usuarios />} />
             <Route path="/peticiones" element={<Peticiones />} />
+            {/* V-- AÑADE ESTA NUEVA RUTA --V */}
+            <Route path="/configuracion/correo" element={<ConfiguracionCorreo />} />
           </Routes>
         </div>
       </div>

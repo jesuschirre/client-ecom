@@ -7,8 +7,17 @@ export default function Sidebar() {
       <nav className="flex flex-col gap-4">
         <Link to="/" className="hover:bg-gray-700 p-2 rounded">Dashboard</Link>
         <Link to="/profile" className="hover:bg-gray-700 p-2 rounded">User Profile</Link>
-        <Link to="/usuarios" className="hover:bg-gray-700 p-2 rounded">User Profile</Link>
+        {/* Corregí este enlace que apuntaba a /usuarios pero decía User Profile */}
+        <Link to="/usuarios" className="hover:bg-gray-700 p-2 rounded">Usuarios</Link>
         <Link to="/peticiones" className="hover:bg-gray-700 p-2 rounded">Peticiones</Link>
+
+        {/* ================================================== */}
+        {/* ===== AQUÍ AÑADIMOS EL NUEVO ENLACE ===== */}
+        {/* ================================================== */}
+        <Link to="/configuracion/correo" className="hover:bg-gray-700 p-2 rounded">
+          Configuración Correo
+        </Link>
+        
       </nav>
     </div>
   );
