@@ -1,27 +1,66 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+
+// Importa todas tus páginas
 import Dashboard from "./pages/Dashboard";
 import UserProfile from "./pages/UserProfile";
 import Usuarios from "./pages/Usuarios";
-import Sidebar from "./components/Sidebar";
 import Peticiones from "./pages/peticiones";
-import ConfiguracionCorreo from "./pages/ConfiguracionCorreo"; // <-- AÑADE ESTA IMPORTACIÓN
+import ConfiguracionCorreo from "./pages/ConfiguracionCorreo";
+import Login from "./pages/Login";
+import Unauthorized from "./pages/Unauthorized";
 
+// Importa tus componentes
+import Sidebar from "./components/Sidebar";
+
+// Componente Guardia para Rutas de Admin
+const AdminRoute = () => {
+  const { isAuthenticated, user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Cargando...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  
+  return user.rol === 'admin' ? <AdminLayout /> : <Navigate to="/unauthorized" />;
+};
+
+// Componente del Layout del Panel de Admin
+const AdminLayout = () => {
+  return (
+    <div>
+      <Sidebar />
+      <div className="ml-64 p-4">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+// Componente Principal de la Aplicación
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1 p-4">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/usuarios" element={<Usuarios />} />
-            <Route path="/peticiones" element={<Peticiones />} />
-            {/* V-- AÑADE ESTA NUEVA RUTA --V */}
-            <Route path="/configuracion/correo" element={<ConfiguracionCorreo />} />
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        {/* Rutas Públicas */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        {/* Rutas de Admin Protegidas */}
+        <Route element={<AdminRoute />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/usuarios" element={<Usuarios />} />
+          <Route path="/peticiones" element={<Peticiones />} />
+          <Route path="/configuracion/correo" element={<ConfiguracionCorreo />} />
+        </Route>
+
+        {/* Redirección por defecto */}
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
     </BrowserRouter>
   );
 }
