@@ -10,6 +10,10 @@ import ConfiguracionCorreo from "./pages/ConfiguracionCorreo";
 import Login from "./pages/Login";
 import Unauthorized from "./pages/Unauthorized";
 
+import Contratos from "./pages/Contratos";
+import DetalleContrato from "./pages/DetalleContrato";
+import FormularioContrato from "./pages/FormularioContrato";
+
 // Importa tus componentes
 import Sidebar from "./components/Sidebar";
 
@@ -56,6 +60,13 @@ function App() {
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/peticiones" element={<Peticiones />} />
           <Route path="/configuracion/correo" element={<ConfiguracionCorreo />} />
+
+          {/* =====> 2. AÑADE ESTAS DOS LÍNEAS AQUÍ <===== */}
+          <Route path="/contratos" element={<Contratos />} />
+          <Route path="/contratos/nuevo" element={<FormularioContrato />} />
+          <Route path="/contratos/:id" element={<DetalleContrato />} /> 
+          <Route path="/contratos/:id/editar" element={<FormularioContrato />} />
+          {/* ============================================== */}
         </Route>
 
         {/* Redirección por defecto */}

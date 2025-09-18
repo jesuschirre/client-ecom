@@ -9,7 +9,8 @@ import {
   HiUsers, 
   HiOutlineNewspaper, 
   HiOutlineCog, 
-  HiOutlineLogout 
+  HiOutlineLogout ,
+  HiDocumentText
 } from "react-icons/hi";
 
 // Un pequeño componente auxiliar para no repetir código en los enlaces
@@ -60,7 +61,9 @@ export default function Sidebar() {
           <NavLink to="/profile" icon={<HiUser size={20} />}>User Profile</NavLink>
           <NavLink to="/usuarios" icon={<HiUsers size={20} />}>Usuarios</NavLink>
           <NavLink to="/peticiones" icon={<HiOutlineNewspaper size={20} />}>Peticiones</NavLink>
+          <NavLink to="/contratos" icon={<HiDocumentText size={20} />}>Contratos</NavLink>
           <NavLink to="/configuracion/correo" icon={<HiOutlineCog size={20} />}>Configuración</NavLink>
+          
         </nav>
       </div>
 
