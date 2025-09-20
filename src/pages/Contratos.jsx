@@ -21,7 +21,8 @@ const StatusBadge = ({ estado }) => {
 // Componente para el filtro de búsqueda
 const FilterComponent = ({ filterText, onFilter }) => (
     <div className="relative">
-        <input id="search" type="text" placeholder="Buscar por campaña o cliente..."
+        <input id="search" type="text" 
+            placeholder="Buscar por campaña, cliente o DNI/RUC..."
             className="block w-full rounded-md border-gray-300 pl-10 shadow-sm sm:text-sm"
             value={filterText} onChange={onFilter} />
         <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -35,15 +36,21 @@ export default function Contratos() {
   const [error, setError] = useState(null);
   const [filterText, setFilterText] = useState('');
 
+  // --- DEFINICIÓN DE COLUMNAS CON EL NUEVO CAMPO ---
   const columns = [
-    { name: 'Campaña / Cliente', selector: row => row.nombre_campana, sortable: true, grow: 2, cell: row => (
+    { name: 'Campaña', selector: row => row.nombre_campana, sortable: true, grow: 2, cell: row => (
+        <Link to={`/contratos/${row.id}`} className="font-medium text-gray-900 hover:text-sky-600">{row.nombre_campana}</Link>
+      ),
+    },
+    { name: 'Cliente / Documento', selector: row => row.nombre_cliente, sortable: true, grow: 2, cell: row => (
         <div>
-          <Link to={`/contratos/${row.id}`} className="font-medium text-gray-900 hover:text-sky-600">{row.nombre_campana}</Link>
-          <div className="mt-1 text-gray-500">{row.nombre_cliente}</div>
+          <div className="font-medium text-gray-900">{row.nombre_cliente}</div>
+          {/* AQUÍ MOSTRAMOS EL DOCUMENTO */}
+          <div className="mt-1 text-gray-500 font-mono text-xs">{row.numero_documento || 'N/A'}</div>
         </div>
       ),
     },
-    { name: 'Plan', selector: row => row.nombre_plan, sortable: true },
+    { name: 'Plan', selector: row => row.nombre_plan, sortable: true, },
     { name: 'Estado', selector: row => row.estado, sortable: true, cell: row => <StatusBadge estado={row.estado} /> },
     { name: 'Fechas', selector: row => row.fecha_inicio, sortable: true, cell: row => (
         <div className='text-sm text-gray-500'>
@@ -69,7 +76,6 @@ export default function Contratos() {
         setLoading(false);
         return;
     }
-
     const fetchContratos = async () => {
       try {
         const response = await fetch('http://localhost:3000/api/contratos_admin', {
@@ -87,14 +93,18 @@ export default function Contratos() {
         setLoading(false);
       }
     };
-    
     fetchContratos();
   }, [token]);
 
-  const filteredItems = contratos.filter(item => 
-    (item.nombre_campana && item.nombre_campana.toLowerCase().includes(filterText.toLowerCase())) ||
-    (item.nombre_cliente && item.nombre_cliente.toLowerCase().includes(filterText.toLowerCase()))
-  );
+  // Lógica de filtrado (ya incluye la búsqueda por documento)
+  const filteredItems = contratos.filter(item => {
+    const searchText = filterText.toLowerCase();
+    return (
+        (item.nombre_campana && item.nombre_campana.toLowerCase().includes(searchText)) ||
+        (item.nombre_cliente && item.nombre_cliente.toLowerCase().includes(searchText)) ||
+        (item.numero_documento && item.numero_documento.includes(searchText))
+    );
+  });
 
   const subHeaderComponentMemo = useMemo(() => {
 		return <FilterComponent onFilter={e => setFilterText(e.target.value)} filterText={filterText} />;
