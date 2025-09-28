@@ -1,8 +1,29 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { HiPlus, HiOutlineDocumentDownload, HiSearch } from 'react-icons/hi';
+import { 
+    HiPlus, 
+    HiOutlineDocumentDownload, 
+    HiSearch,
+    HiCollection, 
+    HiCheckCircle, 
+    HiClock, 
+    HiXCircle // <-- Corregido de HiExCircle a HiXCircle
+} from 'react-icons/hi';
 import DataTable from 'react-data-table-component';
 import { useAuth } from '../context/AuthContext';
+
+// Componente reutilizable para las tarjetas de métricas
+const StatCard = ({ title, count, icon, colorClass }) => (
+    <div className="bg-white p-5 shadow-sm rounded-lg flex items-center">
+        <div className={`p-3 rounded-full ${colorClass}`}>
+            {icon}
+        </div>
+        <div className="ml-4">
+            <p className="text-sm font-medium text-gray-500 uppercase">{title}</p>
+            <p className="text-2xl font-bold text-gray-900">{count}</p>
+        </div>
+    </div>
+);
 
 // Componente para una insignia de estado
 const StatusBadge = ({ estado }) => {
@@ -36,7 +57,15 @@ export default function Contratos() {
   const [error, setError] = useState(null);
   const [filterText, setFilterText] = useState('');
 
-  // --- DEFINICIÓN DE COLUMNAS CON EL NUEVO CAMPO ---
+  const stats = useMemo(() => {
+    return {
+      total: contratos.length,
+      activos: contratos.filter(c => c.estado === 'Activo').length,
+      programados: contratos.filter(c => c.estado === 'Programado').length,
+      vencidos: contratos.filter(c => c.estado === 'Vencido').length
+    };
+  }, [contratos]);
+
   const columns = [
     { name: 'Campaña', selector: row => row.nombre_campana, sortable: true, grow: 2, cell: row => (
         <Link to={`/contratos/${row.id}`} className="font-medium text-gray-900 hover:text-sky-600">{row.nombre_campana}</Link>
@@ -45,7 +74,6 @@ export default function Contratos() {
     { name: 'Cliente / Documento', selector: row => row.nombre_cliente, sortable: true, grow: 2, cell: row => (
         <div>
           <div className="font-medium text-gray-900">{row.nombre_cliente}</div>
-          {/* AQUÍ MOSTRAMOS EL DOCUMENTO */}
           <div className="mt-1 text-gray-500 font-mono text-xs">{row.numero_documento || 'N/A'}</div>
         </div>
       ),
@@ -96,7 +124,6 @@ export default function Contratos() {
     fetchContratos();
   }, [token]);
 
-  // Lógica de filtrado (ya incluye la búsqueda por documento)
   const filteredItems = contratos.filter(item => {
     const searchText = filterText.toLowerCase();
     return (
@@ -128,13 +155,51 @@ export default function Contratos() {
             </Link>
         </div>
       </div>
+      
+      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard 
+            title="Total Contratos" 
+            count={stats.total}
+            colorClass="bg-gray-500"
+            icon={<HiCollection className="h-6 w-6 text-white" />} 
+        />
+        <StatCard 
+            title="Activos" 
+            count={stats.activos}
+            colorClass="bg-green-500"
+            icon={<HiCheckCircle className="h-6 w-6 text-white" />} 
+        />
+        <StatCard 
+            title="Programados" 
+            count={stats.programados}
+            colorClass="bg-blue-500"
+            icon={<HiClock className="h-6 w-6 text-white" />} 
+        />
+        <StatCard 
+            title="Vencidos" 
+            count={stats.vencidos}
+            colorClass="bg-red-500"
+            icon={<HiXCircle className="h-6 w-6 text-white" />} // <-- Corregido
+        />
+      </div>
+
       <div className="mt-8 border rounded-lg overflow-hidden shadow-sm">
-        <DataTable columns={columns} data={filteredItems} progressPending={loading}
+        <DataTable 
+            columns={columns} 
+            data={filteredItems} 
+            progressPending={loading}
             progressComponent={<div className="py-10 text-center">Cargando contratos...</div>}
-            pagination paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]}
-            responsive highlightOnHover pointerOnHover striped
-            subHeader subHeaderComponent={subHeaderComponentMemo}
-            persistTableHead noDataComponent={<div className="py-10 text-center">No hay contratos para mostrar.</div>}
+            pagination 
+            paginationPerPage={10} 
+            paginationRowsPerPageOptions={[10, 25, 50]}
+            responsive 
+            highlightOnHover 
+            pointerOnHover 
+            striped
+            subHeader 
+            subHeaderComponent={subHeaderComponentMemo}
+            persistTableHead 
+            noDataComponent={<div className="py-10 text-center">No hay contratos para mostrar.</div>}
         />
       </div>
     </div>

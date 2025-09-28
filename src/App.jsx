@@ -13,6 +13,7 @@ import Unauthorized from "./pages/Unauthorized";
 import Contratos from "./pages/Contratos";
 import DetalleContrato from "./pages/DetalleContrato";
 import FormularioContrato from "./pages/FormularioContrato";
+import Planes from './pages/Planes';
 
 // Importa tus componentes
 import Sidebar from "./components/Sidebar";
@@ -67,6 +68,7 @@ function App() {
           <Route path="/contratos/:id" element={<DetalleContrato />} /> 
           <Route path="/contratos/:id/editar" element={<FormularioContrato />} />
           {/* ============================================== */}
+          <Route path="/planes" element={<Planes />} />
         </Route>
 
         {/* Redirección por defecto */}
