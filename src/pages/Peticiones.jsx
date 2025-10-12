@@ -103,7 +103,7 @@ export default function Peticiones() {
     { name: 'Monto', selector: row => `S/ ${Number(row.monto).toFixed(2)}`, sortable: true },
     {
       name: 'Comprobante',
-      cell: row => <a href={`http://localhost:3000/uploads/${row.comprobante_pago}`} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 font-semibold">Ver</a>,
+      selector: row => <a href={row.comprobante_pago} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 font-semibold">Ver</a>,
     },
     {
       name: 'Estado',
