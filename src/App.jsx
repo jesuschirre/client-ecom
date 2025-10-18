@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 import UserProfile from "./pages/UserProfile";
 import Usuarios from "./pages/Usuarios";
 import Peticiones from "./pages/peticiones";
+import Clientes from "./pages/clientes";
+
 import ConfiguracionCorreo from "./pages/ConfiguracionCorreo";
 import Login from "./pages/Login";
 import Unauthorized from "./pages/Unauthorized";
@@ -60,6 +62,8 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/peticiones" element={<Peticiones />} />
+          <Route path="/clientes" element={<Clientes />} />
+
           <Route path="/configuracion/correo" element={<ConfiguracionCorreo />} />
 
           {/* =====> 2. AÑADE ESTAS DOS LÍNEAS AQUÍ <===== */}
