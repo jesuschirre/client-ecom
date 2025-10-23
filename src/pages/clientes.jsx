@@ -116,6 +116,7 @@ export default function Clientes() {
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">numero telefono</th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">fecha inicio</th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">fecha fin</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">estado</th>
                                     <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700 border-b">Acciones</th>
                                 </tr>
                             </thead>
@@ -146,6 +147,7 @@ export default function Clientes() {
                                             <td className="px-4 py-3 text-sm text-gray-700">{cliente.telefono || "null"} </td>
                                             <td className="px-4 py-3 text-sm text-gray-700">{cliente.fecha_inicio || "null"} </td>
                                             <td className="px-4 py-3 text-sm text-gray-700">{cliente.fecha_fin || "null"} </td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{cliente.estado || "null"} </td>
                                             <td className="px-4 py-3 text-center">
                                                 <div className="flex justify-center gap-3">
                                                     <button
