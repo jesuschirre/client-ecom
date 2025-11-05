@@ -91,9 +91,10 @@ export default function Sidebar() {
         <nav className="flex flex-col gap-2">
           <NavLink to="/" icon={<HiChartPie size={20} />}>Dashboard</NavLink>
           <NavLink to="/usuarios" icon={<HiUsers size={20} />}>Usuarios</NavLink>
+          <NavLink to="/clientes" icon={<HiUsers size={20} />}>clientes</NavLink>
           <NavLink to="/peticiones" icon={<HiOutlineNewspaper size={20} />}>Peticiones</NavLink>
           <NavLink to="/contratos" icon={<HiDocumentText size={20} />}>Contratos</NavLink>
-          <NavLink to="/clientes" icon={<HiUsers size={20} />}>clientes</NavLink>
+          
           
           <AccordionMenu title="Configuraciones" icon={<HiOutlineCog size={20} />}>
             <NavLink to="/profile" icon={<HiUser size={18} />}>Perfil Empresa</NavLink>

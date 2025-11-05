@@ -93,7 +93,7 @@ export default function Clientes() {
     }
 
     return (
-        <div className="bg-gray-50/50 min-h-full p-4 sm:p-6 lg:p-8 ">
+        <div className="min-h-full p-4 sm:p-6 lg:p-8 ">
             <div className="max-w-7xl mx-auto">
                 <div className="sm:flex sm:items-center sm:justify-between pb-6 border-b border-gray-200 mb-8">
                     <div>

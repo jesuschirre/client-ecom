@@ -127,7 +127,7 @@ export default function Dashboard() {
     );
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-b from-gray-50 to-gray-100/50 min-h-screen">
+        <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-b  to-gray-100/50 min-h-screen">
             <div className="mb-8">
                 <h1 className="text-4xl font-bold text-gray-900 font-['Helvetica', 'Arial', sans-serif]">Bienvenido, {user?.nombre || 'Admin'}</h1>
                 <p className="mt-1 text-gray-600">Este es el centro de comando de Metrópoli Radio.</p>
