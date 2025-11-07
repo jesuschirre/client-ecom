@@ -103,7 +103,7 @@ export default function Peticiones() {
     { name: 'Monto', selector: row => `S/ ${Number(row.monto).toFixed(2)}`, sortable: true },
     {
       name: 'Comprobante',
-      selector: row => <a href={row.comprobante_pago} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 font-semibold">Ver</a>,
+      cell: row => <a href={`http://localhost:3000/uploads/${row.comprobante_pago}`} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 font-semibold">Ver</a>,
     },
     {
       name: 'Estado',
@@ -145,7 +145,7 @@ export default function Peticiones() {
   }, [filterText]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 min-h-full">
+    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50/50 min-h-full">
       <div className="pb-6 border-b border-gray-200 mb-6">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Gestión de Solicitudes</h2>
         <p className="mt-2 text-sm text-gray-600">Revisa, aprueba o rechaza las solicitudes para convertirse en vendedor.</p>
