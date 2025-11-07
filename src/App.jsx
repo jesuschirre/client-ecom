@@ -6,8 +6,8 @@ import { useAuth } from "./context/AuthContext";
 // Importa todas tus páginas
 import Dashboard from "./pages/Dashboard";
 import UserProfile from "./pages/UserProfile"; // Asumo que es para Configuración Empresa
-import Usuarios from "./pages/Usuarios"; // Renombrado mentalmente a PersonalInterno
-import Peticiones from "./pages/peticiones"; // Asumo que es Solicitudes
+import Usuarios from "./pages/Usuarios";
+import Peticiones from "./pages/Peticiones";
 import ConfiguracionCorreo from "./pages/ConfiguracionCorreo";
 import Login from "./pages/Login";
 import Unauthorized from "./pages/Unauthorized";
