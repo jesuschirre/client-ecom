@@ -2,8 +2,21 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, BarChart, Bar, Cell } from 'recharts';
-import { HiUsers, HiDocumentText, HiCheckCircle, HiExclamation, HiArrowRight, HiTrendingUp, HiCalendar, HiTag, HiStar, HiRefresh, HiMoon, HiSun } from 'react-icons/hi';
-import { CgSpinner } from 'react-icons/cg';
+import { 
+  HiUsers, 
+  HiDocumentText, 
+  HiCheckCircle, 
+  HiExclamation, 
+  HiArrowRight, 
+  HiTrendingUp, 
+  HiCalendar, 
+  HiTag, 
+  HiStar, 
+  HiRefresh, 
+  HiMoon, 
+  HiSun 
+} from 'react-icons/hi'; // Lista de íconos única y limpia
+import { CgSpinner } from 'react-icons/cg'; // Esta está bien separada
 
 const StatCard = ({ title, value, icon, gradientClass, iconBgClass }) => {
     const isDark = document.documentElement.classList.contains('dark');
@@ -126,6 +139,9 @@ export default function Dashboard() {
     const [selectedMonth, setSelectedMonth] = useState('');
     const [darkMode, setDarkMode] = useState(false);
 
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
+    const [loading4, setLoading4] = useState(false);
     // Inicializar modo oscuro según sistema y guardado
     useEffect(() => {
         const saved = localStorage.getItem('darkMode');
@@ -237,23 +253,161 @@ export default function Dashboard() {
     return (
         <div className="p-4 sm:p-6 lg:p-8 min-h-screen transition-colors duration-300 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
             <div className="flex justify-between items-center mb-8">
-                <div>
-                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white font-['Inter'] tracking-tight">
-                        Bienvenido, {user?.nombre || 'Admin'} Metropoli
-                    </h1>
-                    <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
-                        Centro de comando de Metrópoli Radio
-                    </p>
-                </div>
-                <button
-                    onClick={toggleDarkMode}
-                    className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
-                    aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-                >
-                    {darkMode ? <HiSun size={24} /> : <HiMoon size={24} />}
-                </button>
-            </div>
+        <div>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white font-['Inter'] tracking-tight">
+            Bienvenido, {user?.nombre || 'Admin'} Metropoli
+            </h1>
+            <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
+            Centro de comando de Metrópoli Radio
+            </p>
+        </div>
+        <div className="flex items-center gap-3">
+            {/* Botón para generar PDF */}
+        <button
+            onClick={async () => {
+                try {
+                    setLoading2(true); //  Activa la pantalla de carga
+                    
+                    // Asume que esta URL devuelve el JSON con el nombre del archivo
+                    const res = await fetch('http://localhost:3000/reportes/contratos', {
+                        headers: { Authorization: `Bearer ${token}` }, // Importante: Asegura el token si es necesario para esta ruta
+                    });
+                    
+                    if (!res.ok) {
+                        // Si el servidor responde con un código de error (4xx, 5xx)
+                        const errorData = await res.json().catch(() => ({ message: 'Error desconocido del servidor.' }));
+                        throw new Error(errorData.message || 'Error al generar el PDF.');
+                    }
 
+                    const data = await res.json();
+                    
+                    // Opcional: Mostrar alerta solo si el backend envía un mensaje específico
+                    // alert(data.message); 
+
+                    // Abre el PDF generado en una nueva pestaña
+                    window.open(`http://localhost:3000/Uploads/reportes/${data.file}`, '_blank');
+                
+                } catch (err) {
+                    console.error(err);
+                    alert(`Hubo un problema al generar el PDF: ${err.message || 'Verifica la consola para más detalles.'}`);
+                } finally {
+                    setLoading2(false); //  Desactiva la pantalla de carga
+                }
+            }}
+            className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md cursor-pointer disabled:bg-indigo-400 disabled:cursor-not-allowed min-w-[200px]" // Añadida clase para deshabilitar y ancho mínimo
+            disabled={loading2} // Deshabilita mientras carga
+        >
+            {loading2 ? (
+                <>
+                    <CgSpinner className="animate-spin h-5 w-5" />
+                    Generando...
+                </>
+            ) : (
+                <>
+                    <HiDocumentText size={20} />
+                    Reporte Contratos
+                </>
+            )}
+        </button>
+        <button
+            onClick={async () => {
+                try {
+                    setLoading4(true); //  Activa la pantalla de carga
+                    
+                    // Asume que esta URL devuelve el JSON con el nombre del archivo
+                    const res = await fetch('http://localhost:3000/reportes/estado');
+                    
+                    if (!res.ok) {
+                        // Si el servidor responde con un código de error (4xx, 5xx)
+                        const errorData = await res.json().catch(() => ({ message: 'Error desconocido del servidor.' }));
+                        throw new Error(errorData.message || 'Error al generar el PDF.');
+                    }
+
+                    const data = await res.json();
+                    // Opcional: Mostrar alerta solo si el backend envía un mensaje específico
+                    // alert(data.message); 
+                    // Abre el PDF generado en una nueva pestaña
+                    window.open(`http://localhost:3000/Uploads/reportes/${data.file}`, '_blank');
+                
+                } catch (err) {
+                    console.error(err);
+                    alert(`Hubo un problema al generar el PDF: ${err.message || 'Verifica la consola para más detalles.'}`);
+                } finally {
+                    setLoading4(false); //  Desactiva la pantalla de carga
+                }
+            }}
+            className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md cursor-pointer disabled:bg-indigo-400 disabled:cursor-not-allowed min-w-[200px]" // Añadida clase para deshabilitar y ancho mínimo
+            disabled={loading4} // Deshabilita mientras carga
+        >
+            {loading4 ? (
+                <>
+                    <CgSpinner className="animate-spin h-5 w-5" />
+                    Generando...
+                </>
+            ) : (
+                <>
+                    <HiDocumentText size={20} />
+                    Reporte contratos por estado 
+                </>
+            )}
+        </button>
+
+
+        <button
+            onClick={async () => {
+                try {
+                    setLoading3(true); //  Activa la pantalla de carga
+                    
+                    // Asume que esta URL devuelve el JSON con el nombre del archivo
+                    const res = await fetch('http://localhost:3000/reportes/planes');
+                    
+                    if (!res.ok) {
+                        // Si el servidor responde con un código de error (4xx, 5xx)
+                        const errorData = await res.json().catch(() => ({ message: 'Error desconocido del servidor.' }));
+                        throw new Error(errorData.message || 'Error al generar el PDF.');
+                    }
+
+                    const data = await res.json();
+                    // Opcional: Mostrar alerta solo si el backend envía un mensaje específico
+                    // alert(data.message); 
+                    // Abre el PDF generado en una nueva pestaña
+                    window.open(`http://localhost:3000/Uploads/reportes/${data.file}`, '_blank');
+                
+                } catch (err) {
+                    console.error(err);
+                    alert(`Hubo un problema al generar el PDF: ${err.message || 'Verifica la consola para más detalles.'}`);
+                } finally {
+                    setLoading3(false); // 👈 Desactiva la pantalla de carga
+                }
+            }}
+            className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md cursor-pointer disabled:bg-indigo-400 disabled:cursor-not-allowed min-w-[200px]" // Añadida clase para deshabilitar y ancho mínimo
+            disabled={loading3} // Deshabilita mientras carga
+        >
+            {loading3 ? (
+                <>
+                    <CgSpinner className="animate-spin h-5 w-5" />
+                    Generando...
+                </>
+            ) : (
+                <>
+                    <HiDocumentText size={20} />
+                    Reporte contratos por planes
+                </>
+            )}
+        </button>
+
+
+            {/* Botón modo oscuro */}
+            <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+            aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            >
+                {darkMode ? <HiSun size={24} /> : <HiMoon size={24} />}
+            </button>
+        </div>
+
+        </div>
             {/* Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                 <StatCard

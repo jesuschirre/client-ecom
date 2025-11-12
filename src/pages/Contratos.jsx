@@ -182,15 +182,24 @@ export default function Contratos() {
       button: true,
       cell: row => (
         <div className="flex items-center space-x-2">
-          <Link
-            to={`/contratos/${row.id}/editar`}
-            title="Editar Contrato"
-            className="p-2 text-gray-500 rounded-full hover:bg-gray-100 hover:text-sky-600"
-          >
-            <HiPencil className="h-5 w-5" />
-          </Link>
+          {row.estado === 'Pendiente_Activacion' && (
+            <Link
+              to={`/contratos/${row.id}/editar`}
+              title="Editar Contrato"
+              className="p-2 text-gray-500 rounded-full hover:bg-gray-100 hover:text-sky-600"
+            >
+              <HiPencil className="h-5 w-5" />
+            </Link>
+          )}
+
           {row.pdf_url && (
-            <a href={row.pdf_url} target="_blank" rel="noopener noreferrer" title="Descargar Contrato PDF" className="p-2 text-gray-500 rounded-full hover:bg-gray-100 hover:text-red-600">
+            <a
+              href={row.pdf_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Descargar Contrato PDF"
+              className="p-2 text-gray-500 rounded-full hover:bg-gray-100 hover:text-red-600"
+            >
               <HiOutlineDocumentDownload className="h-5 w-5" />
             </a>
           )}
