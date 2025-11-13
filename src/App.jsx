@@ -12,16 +12,11 @@ import ConfiguracionCorreo from "./pages/ConfiguracionCorreo";
 import Login from "./pages/Login";
 import Unauthorized from "./pages/Unauthorized";
 import Contratos from "./pages/Contratos";
-import DetalleContrato from "./pages/DetalleContrato"; // Asumo que existe
 import Planes from './pages/Planes';
 import PanelLocutor from './pages/PanelLocutor';
 import FormularioContrato from './pages/FormularioContrato';
-
-// --- ¡NUEVA IMPORTACIÓN! ---
-import ClientesVisitantes from "./pages/ClientesVisitantes"; // Importamos el nuevo componente
-// --------------------------
-
-
+import ClientesVisitantes from "./pages/ClientesVisitantes";
+import Tickets from "./pages/tickets";
 // Importa tus componentes
 import Sidebar from "./components/Sidebar"; // Asegúrate que sea el Sidebar correcto
 import { useState } from "react"; // Necesario para el estado del Sidebar
@@ -88,12 +83,12 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/configuracion/empresa" element={<UserProfile />} /> {/* Ruta actualizada */}
                     <Route path="/personal-interno" element={<Usuarios />} /> {/* Ruta actualizada */}
-
-                    {/* --- ¡NUEVA RUTA! --- */}
+                    
                     <Route path="/clientes-visitantes" element={<ClientesVisitantes />} />
                     {/* ------------------- */}
 
-                    <Route path="/solicitudes" element={<Peticiones />} /> {/* Ruta actualizada */}
+                    <Route path="/solicitudes" element={<Peticiones />} /> 
+                    < Route path="/tickets" element={<Tickets/>}/>
                     <Route path="/configuracion/correo" element={<ConfiguracionCorreo />} />
                     <Route path="/contratos" element={<Contratos />} />
                     <Route path="/contratos/nuevo" element={<FormularioContrato />} />
@@ -103,8 +98,8 @@ function App() {
 
                     {/* Ruta para el Panel Locutor (accesible por Admin y Locutor) */}
                     <Route path="/panel-locutor" element={<PanelLocutor />} /> {/* Ruta actualizada */}
+                
                 </Route>
-
                 {/* Redirección por defecto si ninguna ruta coincide */}
                  {/* Mejor redirigir a "/" si está autenticado, o a "/login" si no */}
                 <Route path="*" element={<Navigate to="/" replace />} />
