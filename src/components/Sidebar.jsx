@@ -13,9 +13,9 @@ import {
     HiChevronDown,
     HiChevronUp,
     HiMicrophone,
-    HiBell,
-    HiOutlineBadgeCheck
+    HiOutlineBadgeCheck,
 } from "react-icons/hi";
+import { FaTicketAlt } from "react-icons/fa"; 
 
 const NavLink = ({ to, icon, children, isSubLink = false, badge }) => {
     const location = useLocation();
@@ -158,7 +158,7 @@ export default function Sidebar() {
                                 <NavLink to="/clientes-visitantes" icon={<HiUserGroup size={18} />}>Clientes/Visitantes</NavLink>
                             </AccordionMenu>
                             <NavLink to="/solicitudes" icon={<HiOutlineBadgeCheck size={20} />}>Solicitudes</NavLink>
-                            <NavLink to="/tickets" icon={<HiDocumentText size={20} />}> Tickets </NavLink>
+                            <NavLink to="/tickets" icon={<FaTicketAlt size={20} />}> Tickets soporte</NavLink>
                             <NavLink to="/contratos" icon={<HiDocumentText size={20} />}>Contratos</NavLink>
                             <NavLink
                                 to="/panel-locutor"
