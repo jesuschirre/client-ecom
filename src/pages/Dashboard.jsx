@@ -142,6 +142,7 @@ export default function Dashboard() {
     const [loading2, setLoading2] = useState(false);
     const [loading3, setLoading3] = useState(false);
     const [loading4, setLoading4] = useState(false);
+    const [loading5, setLoading5] = useState(false);
     // Inicializar modo oscuro según sistema y guardado
     useEffect(() => {
         const saved = localStorage.getItem('darkMode');
@@ -312,7 +313,7 @@ export default function Dashboard() {
         <button
             onClick={async () => {
                 try {
-                    setLoading4(true); //  Activa la pantalla de carga
+                    setLoading3(true); //  Activa la pantalla de carga
                     
                     // Asume que esta URL devuelve el JSON con el nombre del archivo
                     const res = await fetch('http://localhost:3000/reportes/estado');
@@ -333,13 +334,13 @@ export default function Dashboard() {
                     console.error(err);
                     alert(`Hubo un problema al generar el PDF: ${err.message || 'Verifica la consola para más detalles.'}`);
                 } finally {
-                    setLoading4(false); //  Desactiva la pantalla de carga
+                    setLoading3(false); //  Desactiva la pantalla de carga
                 }
             }}
             className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md cursor-pointer disabled:bg-indigo-400 disabled:cursor-not-allowed min-w-[200px]" // Añadida clase para deshabilitar y ancho mínimo
-            disabled={loading4} // Deshabilita mientras carga
+            disabled={loading3} // Deshabilita mientras carga
         >
-            {loading4 ? (
+            {loading3 ? (
                 <>
                     <CgSpinner className="animate-spin h-5 w-5" />
                     Generando...
@@ -356,7 +357,52 @@ export default function Dashboard() {
         <button
             onClick={async () => {
                 try {
-                    setLoading3(true); //  Activa la pantalla de carga
+                    setLoading4(true); //  Activa la pantalla de carga
+                    
+                    // Asume que esta URL devuelve el JSON con el nombre del archivo
+                    const res = await fetch('http://localhost:3000/reportes/demandado');
+                    
+                    if (!res.ok) {
+                        // Si el servidor responde con un código de error (4xx, 5xx)
+                        const errorData = await res.json().catch(() => ({ message: 'Error desconocido del servidor.' }));
+                        throw new Error(errorData.message || 'Error al generar el PDF.');
+                    }
+
+                    const data = await res.json();
+                    // Opcional: Mostrar alerta solo si el backend envía un mensaje específico
+                    // alert(data.message); 
+                    // Abre el PDF generado en una nueva pestaña
+                    window.open(`http://localhost:3000/Uploads/reportes/${data.file}`, '_blank');
+                
+                } catch (err) {
+                    console.error(err);
+                    alert(`Hubo un problema al generar el PDF: ${err.message || 'Verifica la consola para más detalles.'}`);
+                } finally {
+                    setLoading4(false); //Desactiva la pantalla de carga
+                }
+            }}
+            className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md cursor-pointer disabled:bg-indigo-400 disabled:cursor-not-allowed min-w-[200px]" // Añadida clase para deshabilitar y ancho mínimo
+            disabled={loading4} // Deshabilita mientras carga
+        >
+            {loading4 ? (
+                <>
+                    <CgSpinner className="animate-spin h-5 w-5" />
+                    Generando...
+                </>
+            ) : (
+                <>
+                    <HiDocumentText size={20} />
+                    Reporte contratos mas demandados
+                </>
+            )}
+        </button>
+
+
+
+        <button
+            onClick={async () => {
+                try {
+                    setLoading5(true); //  Activa la pantalla de carga
                     
                     // Asume que esta URL devuelve el JSON con el nombre del archivo
                     const res = await fetch('http://localhost:3000/reportes/planes');
@@ -377,13 +423,13 @@ export default function Dashboard() {
                     console.error(err);
                     alert(`Hubo un problema al generar el PDF: ${err.message || 'Verifica la consola para más detalles.'}`);
                 } finally {
-                    setLoading3(false); // 👈 Desactiva la pantalla de carga
+                    setLoading5(false); // 👈 Desactiva la pantalla de carga
                 }
             }}
             className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md cursor-pointer disabled:bg-indigo-400 disabled:cursor-not-allowed min-w-[200px]" // Añadida clase para deshabilitar y ancho mínimo
-            disabled={loading3} // Deshabilita mientras carga
+            disabled={loading5} // Deshabilita mientras carga
         >
-            {loading3 ? (
+            {loading5 ? (
                 <>
                     <CgSpinner className="animate-spin h-5 w-5" />
                     Generando...
@@ -396,7 +442,7 @@ export default function Dashboard() {
             )}
         </button>
 
-
+        
             {/* Botón modo oscuro */}
             <button
             onClick={toggleDarkMode}
